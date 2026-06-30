@@ -1,0 +1,12 @@
+# Task 4:
+    - 4.2:  BIKE_MODEL     --> .rodata
+            total_odometer --> .bss
+            current_speed  --> Stack
+    - 4.3:  Khi kích hoạt hàm crash_simulation, không gian bộ nhớ Stack nhanh chóng
+    bị lấp đầy. Hệ điều hành trên máy tính sẽ ép buộc tắt chương trình, in ra lỗi Stack Overflow Exception
+            Nếu đoạn mã này chạy trên một vi điều khiển thực tế (ví dụ: ARM Cortex-M), CPU sẽ nhảy vào hàm ngắt 
+            ngoại lệ HardFault_Handler để xử lý sự cố
+# TASK 5:
+    - 5.1: Cách 1 sẽ sẽ giúp chương trình biên dịch thành công và nạp được xuống chip
+           mà không làm quá tải dung lượng bộ nhớ Flash. Do cách 1 khởi tạo giá trị 0 , nên được lưu vào phân vùng .bss
+           ( không tốn dung lượng lưu trữ) . Cách 2 khởi tạo 3 giá trị khác 0 , chiếm 2 * 20000 = 40KB > 20KB, nên bị tràn bộ nhớ flash.
