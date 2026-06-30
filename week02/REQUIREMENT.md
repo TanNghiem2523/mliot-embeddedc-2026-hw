@@ -16,7 +16,7 @@ Học viên phải hoàn thành **5 nhiệm vụ** lập trình cùng **3 câu h
 
 Hoàn thiện cấu trúc nằm trong union `Bike_Status_t` để ánh xạ chính xác một thanh ghi trạng thái hệ thống có độ rộng 16-bit (`raw_value`) với quy định phân bổ bit như sau:
 - **Bit [0]**: `PWR_ON` (Trạng thái nguồn xe - 1 bit).
-- **Bit [2:1]**: `ASSIST_LEVEL` (Chế độ trợ lực điện: Eco, Normal, Sport - 2 bits).
+- **Bit [2:1]**: `ASSIST_LEVEL` (Chế độ trợ lực điện với quy ước mã hóa: `0` = Eco, `1` = Normal, `2` = Sport - 2 bits).
 - **Bit [6:3]**: `LIGHT_BRIGHT` (Độ sáng hệ thống đèn - 4 bits).
 - **Bit [15:7]**: `RESERVED` (Vùng trống bảo mật - 9 bits).
 
