@@ -1,0 +1,38 @@
+#Task 1:
+1.1: 
+ - Cmake: tạo ra file cấu hình hệ thống build (Makefile hoặc .ninja) theo file CMakeLists.txt
+ - Ninja: đọc và thực thi file build do Cmake sinh ra
+ - Compiler (arm-none-eabi-gcc): trình biên dịch chéo, dịch mã C/C++ thành mã máy Assembly (theo kiến trúc ARM Cortex-M)
+ - STM32_Programmer_CLI: công cụ nạp chương trình, đọc file .bin/.hex/.elf do compiler tạo ra , rồi nạp vào 
+ bộ nhớ Flash của chip STM32
+1.2:
+ - Bước 1: CMake đọc file cấu hình CMakeLists.txt ---> tạo ra file cấu hình hệ thống build dành riêng cho Ninja (.ninja)
+ - Bước 2: Ninja đọc và thực thi file .ninja do CMake vừa tạo ---> gọi Compiler thoe đúng thứ tự phụ thuộc file
+ - Bước 3: Compiler (arm-none-eabi-gcc) biên dịch từng file .c ---> file .o + linker script ----> file .elf ( chuyển đổi sang .bin và .hex)
+ - Bước 4: STM32_Programmer_CLI nạp file .bin/.hex/.elf vào bộ nhớ flash của chip STM32 .
+
+#Task 2:
+2.1:
+ - Chưa thể nạp file .o xuống chip là tại vì compiler chưa biết chính xác địa chỉ flash/RAM của chip để đặt file .o vào
+ - File .bin là ảnh nhị phân hoàn chỉnh của toàn bộ chương trình và chứa địa chỉ chính xác để nạp vào trong bộ nhớ flash/ram của chip
+2.2:
+ - Nếu mỗi lần sửa code thay vì biên dịch lại toàn bộ, Incremental Build của Ninja chỉ biên dịch lại những file nào đã thay đổi, điều này giúp tiết kiệm
+ thời gian và tăng năng suất.
+ - Cơ chế : 
+    + So sánh timestamp (thời gian chỉnh sửa): Ninja so sánh thời gian sửa đổi của file .c/.h với thời gian tạo ra file .o tương ứng. Nếu file nào có thời gian sửa đổi
+    mới hơn file .o thì Ninja sẽ biên dịch lại
+    + Dependency graph (đồ thị phụ thuộc): Ninja xây dựng đồ thị thể hiện mối quan hệ giữa các file ( .o với .c/.h). Ninja dựa vào đồ thị này, duyệt từng nhánh xem có file nào vừa sửa đổi không
+    nếu có thì sẽ biên dịch lại.
+
+#Task 3:
+3.1: 
+ - Phân biệt LMA và VMA : LMA là địa chỉ mà dữ liệu sẽ lưu trong Flash, dữ liệu được lưu trữ vật lý trong flash sẽ không mất khi mất điện, AT> FLASH chỉ định LMA của vùng .data nằm ở bộ nhớ Flash. 
+ VMA là địa chỉ mà CPU sẽ truy cập khi chương trình đang chạy do đó dữ liệu sẽ lưu trong RAM. >RAM chỉ định vùng .data nằm ở bộ nhớ RAM
+ - Phân vùng này cần 2 loại địa chỉ là vì: RAM sẽ mất sạch dữ liệu khi mất điện. Cần LMA để lưu trữ an toàn trong bộ nhớ Flash khi nạp code để không bị mất đi. Tuy nhiên, Flash có tốc độ truy xuất chậm và
+ không hỗ trợ ghi liên tục và trực tiếp như RAM. Nên cần VMA để CPU có thể hoạt động hiệu quả hơn.
+3.2: Nếu hàm khởi tạo hệ thống (Reset_Handler / Startup code) quên nhiệm vụ sao chép dữ liệu từ _sidata đến _sdata , thì khi reset , toàn bộ biến toàn cục sẽ không có giá trị khởi tạo, hoặc mang giá trị rác gây ra
+lỗi logic nghiêm trọng.
+
+#Task 4:
+4.1: cmake -S . -B build -G Ninja
+4.2: cmake --build build
