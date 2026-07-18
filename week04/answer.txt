@@ -1,0 +1,9 @@
+#Task 1
+1.1: Xuất mức 1 ( 3.3V), PMOS dẫn, NMOS ngắt, dòng điện được "đẩy" ra 3.3v ; 
+     Xuất mức 0 (0v), PMOS ngắt, NMOS dẫn, dòng điện được kéo xuống GND.
+1.2: Giá trị đọc về tại thanh ghi dữ liệu vào (IDR) sẽ nhảy hỗn loạn giữa 0 và 1, không kiểm soát được.
+
+#Task 2: Nhà sản xuất chip (ST) mặc định tắt toàn bộ Clock của ngoại vi khi vừa reset chip để tiết kiệm năng lượng, khi ngoại vi không được dùng, nếu Clock vẫn được cấp
+thì sẽ gây tiêu tốn điện một cách vô ích. Nếu cấu hình các thanh ghi chức năng của GPIO mà quên bật Clock cho Port , ngoại vi sẽ không hoạt động.
+
+#Link demo: https://drive.google.com/drive/folders/1FRWHmqaQ5PwqzJJwOZRKGTQRAUjK1vw2?usp=drive_link

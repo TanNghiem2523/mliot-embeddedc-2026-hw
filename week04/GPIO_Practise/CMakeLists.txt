@@ -2,11 +2,15 @@ cmake_minimum_required(VERSION 3.22)
 
 #
 # Baremetal STM32F103 GPIO_Button Project
-# Structured following the standard STM32Cube 3-layer architecture:
+# Structured following the standard STM32Cube 3-layer architecture,
+# matching the actual folder layout of this repository:
 #   1) CMSIS Core       -> Drivers/CMSIS/Include
-#   2) CMSIS Device     -> Drivers/CMSIS/Device/ST/STM32F1xx/Include + Source
+#   2) CMSIS Device     -> Drivers/CMSIS/Device/ST/STM32F1xx/Include (+ Source/Templates)
 #   3) HAL Driver       -> Drivers/STM32F1xx_HAL_Driver/Inc + Src
-#   4) Application code -> project root (main.c, stm32f1xx_hal_conf.h, ...)
+#   4) Application code -> project root (main.c, stm32f1xx_hal_conf.h)
+#
+# NOTE: the "Core/" folder in this repo is leftover from another
+# (STM32F4 + SSD1306) project and is NOT used here. Do not add it.
 #
 
 # Setup compiler settings
@@ -46,23 +50,35 @@ set(CMSIS_CORE_Dir
 )
 
 # ---------------------------------------------------------------------------
-# 2) CMSIS Device (ST STM32F1xx: stm32f1xx.h, stm32f103xb.h, system_stm32f1xx.h)
+# 2) CMSIS Device (ST STM32F1xx: stm32f1xx.h, stm32f103xb.h, system_stm32f1xx.h/.c)
+#
+# !!! system_stm32f1xx.c is MISSING from this repo (only the .h exists) !!!
+# You must add it yourself under Source/Templates/ before this will build.
+# Get it from: https://github.com/STMicroelectronics/cmsis_device_f1
+#              Source/Templates/system_stm32f1xx.c
 # ---------------------------------------------------------------------------
 set(CMSIS_DEVICE_Include_Dir
     ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Device/ST/STM32F1xx/Include
 )
 
 set(CMSIS_DEVICE_Src
-    ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Device/ST/STM32F1xx/Source/Templates/system_stm32f1xx.c
-)
-
-# Startup assembly file (adjust name if your chip variant differs)
-set(STARTUP_Src
-    ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Device/ST/STM32F1xx/Source/Templates/gcc/startup_stm32f103xb.s
+    ${CMAKE_SOURCE_DIR}/Core/Src/system_stm32f1xx.c
 )
 
 # ---------------------------------------------------------------------------
-# 3) HAL Driver (ST STM32F1xx HAL: stm32f1xx_hal.h/.c, stm32f1xx_hal_gpio.h/.c ...)
+# Startup assembly file
+#
+# !!! The only startup file present (Core/Startup/startup_stm32f446retx.s)
+# is for the WRONG chip (STM32F446, not F103) - do not use it.
+# You must add a correct startup_stm32f103xb.s, e.g. under Drivers/CMSIS/Device/
+# ST/STM32F1xx/Source/Templates/gcc/, taken from the same cmsis_device_f1 repo.
+# ---------------------------------------------------------------------------
+set(STARTUP_Src
+    ${CMAKE_SOURCE_DIR}/Core/Startup/startup_stm32f103xb.s
+)
+
+# ---------------------------------------------------------------------------
+# 3) HAL Driver (ST STM32F1xx HAL)
 # ---------------------------------------------------------------------------
 set(HAL_DRIVER_Include_Dir
     ${CMAKE_SOURCE_DIR}/Drivers/STM32F1xx_HAL_Driver/Inc
@@ -76,14 +92,18 @@ set(HAL_DRIVER_Src
 )
 
 # ---------------------------------------------------------------------------
-# 4) Application layer (project root: main.c, main.h, stm32f1xx_hal_conf.h ...)
+# 4) Application layer (project root)
+#
+# !!! stm32f1xx_hal_conf.h is MISSING from this repo. It must be placed
+# directly in the project root (next to main.c) before this will build.
+# Base it on: Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_conf_template.h
 # ---------------------------------------------------------------------------
 set(APP_Include_Dir
-    ${CMAKE_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}/Core/Inc
 )
 
 set(APP_Src
-    ${CMAKE_SOURCE_DIR}/main.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/main.c
 )
 
 # ---------------------------------------------------------------------------
@@ -97,7 +117,7 @@ set(BAREMETAL_Defines_Syms
 )
 
 # ---------------------------------------------------------------------------
-# Collect all include directories (order matters: app first, then device/HAL/core)
+# Collect all include directories
 # ---------------------------------------------------------------------------
 set(BAREMETAL_Include_Dirs
     ${APP_Include_Dir}

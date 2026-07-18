@@ -33,7 +33,7 @@ echo       Build completed successfully. Output: build\app_firmware.bin
 echo.
 
 echo STEP 4: FLASHING FIRMWARE TO TARGET MCU
-STM32_Programmer_CLI -c port=SWD -w "build\stm32f103_aht20_baremetal.bin" 0x08000000 -rst
+STM32_Programmer_CLI -c port=SWD -w "build\GPIO_Button.bin" 0x08000000 -rst
 if errorlevel 1 (
     echo       ERROR: Flashing failed.
     goto :error
