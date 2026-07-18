@@ -31,8 +31,8 @@
  - Phân vùng này cần 2 loại địa chỉ là vì: RAM sẽ mất sạch dữ liệu khi mất điện. Cần LMA để lưu trữ an toàn trong bộ nhớ Flash khi nạp code để không bị mất đi. Tuy nhiên, Flash có tốc độ truy xuất chậm và
  không hỗ trợ ghi liên tục và trực tiếp như RAM. Nên cần VMA để CPU có thể hoạt động hiệu quả hơn.
 3.2: Nếu hàm khởi tạo hệ thống (Reset_Handler / Startup code) quên nhiệm vụ sao chép dữ liệu từ _sidata đến _sdata , thì khi reset , toàn bộ biến toàn cục sẽ không có giá trị khởi tạo, hoặc mang giá trị rác gây ra
-lỗi logic nghiêm trọng.
+lỗi logic nghiêm trọng..
 
 #Task 4:
 4.1: cmake -S . -B build -G Ninja
-4.2: cmake --build build
+4.2: cmake --build build 
