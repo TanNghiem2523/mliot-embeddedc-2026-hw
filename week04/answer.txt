@@ -1,3 +1,5 @@
+LED PHẢN HỒI THEO CÁCH 2 (hàng 1 cột 1 - nháy 1 lần, hàng 1 cột 2 - nháy 2 lần, hàng 2 cột 1 - nháy 3 lần , hàng 2 cột 2 - nháy 4 lần)
+
 #Task 1
 1.1: Xuất mức 1 ( 3.3V), PMOS dẫn, NMOS ngắt, dòng điện được "đẩy" ra 3.3v ; 
      Xuất mức 0 (0v), PMOS ngắt, NMOS dẫn, dòng điện được kéo xuống GND.
@@ -6,4 +8,4 @@
 #Task 2: Nhà sản xuất chip (ST) mặc định tắt toàn bộ Clock của ngoại vi khi vừa reset chip để tiết kiệm năng lượng, khi ngoại vi không được dùng, nếu Clock vẫn được cấp
 thì sẽ gây tiêu tốn điện một cách vô ích. Nếu cấu hình các thanh ghi chức năng của GPIO mà quên bật Clock cho Port , ngoại vi sẽ không hoạt động.
 
-#Link demo: https://drive.google.com/drive/folders/1FRWHmqaQ5PwqzJJwOZRKGTQRAUjK1vw2?usp=drive_link
+#Task 5: https://drive.google.com/drive/folders/1FRWHmqaQ5PwqzJJwOZRKGTQRAUjK1vw2?usp=drive_link

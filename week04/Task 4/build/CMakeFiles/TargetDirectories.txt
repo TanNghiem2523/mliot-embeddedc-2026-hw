@@ -1,0 +1,3 @@
+C:/Users/DELL/mliot-embeddedc-2026-hw/week04/Task 4/build/CMakeFiles/GPIO_Button.dir
+C:/Users/DELL/mliot-embeddedc-2026-hw/week04/Task 4/build/CMakeFiles/edit_cache.dir
+C:/Users/DELL/mliot-embeddedc-2026-hw/week04/Task 4/build/CMakeFiles/rebuild_cache.dir
