@@ -1,4 +1,4 @@
-#include "stm32f1xx_hal.h"
+#include "stm32f1xx_hal.h" //Thư viện cung cấp các hàm cấu hình và điều khiển GPIO
 
 /* Định nghĩa các chân Ma trận phím 2x2 */
 #define ROW1_PORT   GPIOA
@@ -26,7 +26,7 @@ int main(void) {
 
     while (1) {
         key_pressed = 0;
-
+        // Thuật toán: Quét từng ROW, đặt mức 0v ở từng ROW, kiểm tra có COL nào ở mức 0v không? ( được nhấn )
         // Quét Hàng 1
         HAL_GPIO_WritePin(ROW1_PORT, ROW1_PIN, GPIO_PIN_RESET);
         HAL_GPIO_WritePin(ROW2_PORT, ROW2_PIN, GPIO_PIN_SET);
@@ -60,10 +60,7 @@ int main(void) {
                 HAL_GPIO_WritePin(LED_PORT, LED_PIN, GPIO_PIN_SET);   // Tắt LED
                 HAL_Delay(250);                                       // Chờ 250ms (LED tắt)
             }
-            
-            // Tạm dừng thêm một chút sau khi nháy xong để chống dội (debounce)
-            // và tránh việc LED nháy lại ngay lập tức nếu bạn giữ phím quá lâu.
-            HAL_Delay(500); 
+            HAL_Delay(500); //chống dội buttons
         }
         
     }
@@ -71,8 +68,8 @@ int main(void) {
 void MX_GPIO_Init(void) {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-    __HAL_RCC_GPIOA_CLK_ENABLE();
-    __HAL_RCC_GPIOC_CLK_ENABLE();
+    __HAL_RCC_GPIOA_CLK_ENABLE();// đánh thức portA
+    __HAL_RCC_GPIOC_CLK_ENABLE();// đánh thức portC
 
     HAL_GPIO_WritePin(LED_PORT, LED_PIN, GPIO_PIN_SET); 
     GPIO_InitStruct.Pin   = LED_PIN;
@@ -117,13 +114,4 @@ void SystemClock_Config(void) {
     RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
     HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0);
 }
-#ifdef USE_FULL_ASSERT
-void assert_failed(uint8_t *file, uint32_t line)
-{
-    (void)file;
-    (void)line;
-    while (1)
-    {
-    }
-}
-#endif
+
